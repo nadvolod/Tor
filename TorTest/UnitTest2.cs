@@ -1,9 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
 
 namespace TorTest
 {
@@ -12,12 +10,11 @@ namespace TorTest
     {
         public IWebDriver Driver { get; set; }
         public Process TorProcess { get; set; }
-        public WebDriverWait Wait { get; set; }
 
         [TestMethod]
         public void Open_Tor_Browser()
         {
-            Driver.Navigate().GoToUrl(@"https://www.qtptutorial.net/automation-practice");
+            Driver.Navigate().GoToUrl("https://www.qtptutorial.net/automation-practice");
             var radioButton = Driver.FindElement(By.XPath("//input[@value='I love HP UFT']"));
             radioButton.Click();
 
@@ -27,6 +24,7 @@ namespace TorTest
         [TestInitialize]
         public void SetupTest()
         {
+            //TODO update me to match your path
             var torBinaryPath = @"C:\Source\Github\Tor\TorTest\Drivers\Browser\firefox.exe";
             TorProcess = new Process();
             TorProcess.StartInfo.FileName = torBinaryPath;
@@ -39,7 +37,6 @@ namespace TorTest
             profile.SetPreference("network.proxy.socks", "127.0.0.1");
             profile.SetPreference("network.proxy.socks_port", 9150);
             Driver = new FirefoxDriver(profile);
-            Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(60));
         }
 
         [TestCleanup]
